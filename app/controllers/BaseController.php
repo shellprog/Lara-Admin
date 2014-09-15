@@ -2,6 +2,9 @@
 
 class BaseController extends Controller {
 
+    protected $cruds;
+    protected $data;
+
 	/**
 	 * Setup the layout used by the controller.
 	 *
@@ -14,5 +17,9 @@ class BaseController extends Controller {
 			$this->layout = View::make($this->layout);
 		}
 	}
+
+    function __construct(){
+        $this->data['cruds'] = DB::table('crud_table')->get();
+    }
 
 }
