@@ -26,6 +26,8 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="general_table_settings">
 
+                        @include('layouts.notifications')
+
                         <div class="row margin">
                             <strong><p>Table Configuration</p></strong>
                             @if($result==1)
