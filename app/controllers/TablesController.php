@@ -442,14 +442,6 @@ class TablesController extends BaseController
             if (DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->count() > 0) {
                 $cols = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->get();
 
-                foreach ($cols as $col) {
-                    if ($col->type == "radio" || $col->type == "range" || $col->type == "checkbox" || $col->type == "select") {
-                        DB::table("crud_table_pairs")->where("crud_table_id", $col->id)->delete();
-                    }
-                }
-
-                DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->delete();
-
                 DB::table($this->table->table_name)->where('id', $id)->delete();
 
                 Session::flash('success_msg', 'Entry deleted successfully');

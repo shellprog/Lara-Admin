@@ -39,6 +39,8 @@ Route::filter('table_settings', function($route, $request)
 
     $table = DB::table('crud_table')->where('slug', $segments[1])->first();
 
+    //dd($table);
+
     if(DB::table('crud_table_rows')->where('table_name', $table->table_name)->count()<=0){
         Session::flash('error_msg', 'Update your table settings before doing any operations');
         return Redirect::to('/table/'.$table->table_name.'/settings');
