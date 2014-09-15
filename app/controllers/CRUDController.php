@@ -87,7 +87,7 @@ class CRUDController extends BaseController
                     'updated_at'=> Utils::timestamp()]);
         }
 
-        Session::flash('success_msg','CRUD for table '+Input::get('table_name')+' created successfully');
+        Session::flash('success_msg','CRUD created successfully');
 
         return Redirect::to("/crud/all");
     }

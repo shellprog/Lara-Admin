@@ -104,7 +104,7 @@ class SettingsController extends BaseController
                     'updated_at' => Utils::timestamp()
                 ]);
 
-            if (Input::get("type") == "radio") {
+            if (Input::get($column . "_type") == "radio") {
 
                 $radionames = Input::get($column . "_radioname");
                 $radiovalues = Input::get($column . "_radioval");
@@ -118,7 +118,7 @@ class SettingsController extends BaseController
                 }
             }
 
-            if (Input::get("type") == "range") {
+            if (Input::get($column . "_type") == "range") {
                 $range_from = Input::get($column . "_range_from");
                 $range_to = Input::get($column . "_range_to");
 
@@ -130,7 +130,7 @@ class SettingsController extends BaseController
 
             }
 
-            if (Input::get("type") == "checkbox") {
+            if (Input::get($column . "_type") == "checkbox") {
                 $checkboxnames = Input::get($column . "_checkboxname");
                 $checkboxvalues = Input::get($column . "_checkboxval");
 
@@ -145,7 +145,8 @@ class SettingsController extends BaseController
                 }
             }
 
-            if (Input::get("type") == "select") {
+            if (Input::get($column . "_type") == "select") {
+
                 $selectnames = Input::get($column . "_selectname");
                 $selectvalues = Input::get($column . "_selectval");
 

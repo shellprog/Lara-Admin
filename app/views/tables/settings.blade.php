@@ -68,8 +68,7 @@
                                         <option {{$column->type=="password"?"selected":""}} value="password">Password</option>
                                         <option {{$column->type=="number"?"selected":""}} value="number">Number</option>
                                         <option {{$column->type=="text_area"?"selected":""}} value="text_area">Normal Textarea</option>
-                                        <option {{$column->type=="content_editor_escape"?"selected":""}} value="content_editor_escape">Content Editor(Escape HTML)</option>
-                                        <option {{$column->type=="content_editor"?"selected":""}} value="content_editor">Content Editor(Do not Escape HTML)</option>
+                                        <option {{$column->type=="content_editor"?"selected":""}} value="content_editor">Content Editor</option>
                                         <option {{$column->type=="gender_full"?"selected":""}} value="gender_full">Gender(Returns male/female)</option>
                                         <option {{$column->type=="gender_short"?"selected":""}} value="gender_short">Gender(Returns m/f)</option>
                                         <option {{$column->type=="true_false"?"selected":""}} value="true_false">True/False</option>
