@@ -11,10 +11,10 @@ CRUD is repetitive task . Laravel Admin Panel makes CRUD a breeze with just 2 cl
 Simple CRUD is good for tables which are not linked to others or which are not related to other tables 
 If i want to create a user table which has relationship with user_groups then this can be useful
 
-## User Management 
+## User Management - WIP
 It will wrap all popular authentication systems like sentry , confide , buildin auth into adapter through which user management can be configured like user creations , user groups , groups , throttle etc .
 
-## Cron Jobs
+## Cron Jobs- WIP
 This really needs an interface 
 
 Stay tuned !
