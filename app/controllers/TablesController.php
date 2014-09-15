@@ -6,6 +6,8 @@ class TablesController extends BaseController
 
     function __construct()
     {
+        $this->beforeFilter('table_settings', array('except' => array('settings')));
+
         $segments = Request::segments();
         $this->table = DB::table('crud_table')->where('slug', $segments[1])->first();
 
@@ -62,7 +64,6 @@ class TablesController extends BaseController
 
     public function edit($slug, $id)
     {
-
         $editors = [];
         $datetimepickers = [];
 
@@ -251,7 +252,6 @@ class TablesController extends BaseController
 
     public function all()
     {
-
         $headers = [];
         $visible_columns_names = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->where('listable', 1)->lists('column_name');
         $columns = DB::table($this->table->table_name)->select($visible_columns_names)->get();

@@ -33,6 +33,18 @@ App::after(function($request, $response)
 |
 */
 
+Route::filter('table_settings', function($route, $request)
+{
+    $segments = $request->segments();
+
+    $table = DB::table('crud_table')->where('slug', $segments[1])->first();
+
+    if(DB::table('crud_table_rows')->where('table_name', $table->table_name)->count()<=0){
+        Session::flash('error_msg', 'Update your table settings before doing any operations');
+        return Redirect::to('/table/'.$table->table_name.'/settings');
+    }
+});
+
 Route::filter('auth', function()
 {
 	if (Auth::guest())
