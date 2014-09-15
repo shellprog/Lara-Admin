@@ -42,6 +42,16 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="needle">Unqiue / Primary Column Name (Will be used for editing and deleting)</label>
+                    <input type="text" class="form-control" name="needle" id="needle" placeholder="Ex : id">
+                </div>
+
+                <div class="form-group">
+                    <label for="fontawesome_class">Font Awesome Class</label>
+                    <input type="text" class="form-control" name="fontawesome_class" id="fontawesome_class" placeholder="Ex : fa fa-ellipsis-v">
+                </div>
+
+                <div class="form-group">
                     <div class="checkbox">
                         <label>
                             <input name="creatable" type="checkbox"/>

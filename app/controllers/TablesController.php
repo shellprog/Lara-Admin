@@ -7,6 +7,7 @@ class TablesController extends BaseController
     function __construct()
     {
         $this->beforeFilter('table_settings', array('except' => array('settings')));
+        $this->beforeFilter('table_needle', array('except' => array('settings')));
 
         $segments = Request::segments();
         $this->table = DB::table('crud_table')->where('slug', $segments[1])->first();
@@ -62,7 +63,7 @@ class TablesController extends BaseController
         return View::make('tables.create', $this->data);
     }
 
-    public function edit($slug, $id)
+    public function edit($slug, $needle)
     {
         $editors = [];
         $datetimepickers = [];
@@ -101,113 +102,52 @@ class TablesController extends BaseController
             }
         }
 
+        $cols = DB::table($this->table->table_name)->where($this->table->needle, $needle)->first();
+
+        $this->data['cols'] = (array)$cols;
         $this->data['columns'] = $columns;
         $this->data['editors'] = $editors;
         $this->data['datetimepickers'] = $datetimepickers;
         $this->data['table'] = $this->table;
-        $this->data['id'] = $id;
+        $this->data['needle'] = $needle;
 
-        if ($id != 0) {
-            //Table have primary key so fetch using that
-            if (DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->count() > 0) {
-
-                $editable_columns_names = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->where('editable', 1)->lists('column_name');
-                $cols = DB::table($this->table->table_name)->select($editable_columns_names)->where('id', $id)->first();
-
-                $this->data['cols'] = (array)$cols;
-
-                return View::make('tables.edit',$this->data);
-
-            }
-        } else {
-            //Match rows and delete
-            $editable_columns_names = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->lists('column_name');
-            $columns = DB::table($this->table->table_name)->select($editable_columns_names)->get();
-
-            if (sizeOf($columns) > 0) {
-                $position = Input::get('position');
-                $keys = Input::get('rows_' . $position);
-                $values = Input::get('values_' . $position);
-
-                $arr = [];
-
-                for ($i = 0; $i < sizeOf($keys); $i++) {
-                    $arr[$values[$i]] = $keys[$i];
-                }
-
-
-                $cols = DB::table($this->table->table_name)->where($arr)->first();
-
-                $this->data['cols'] = (array)$cols;
-
-                return View::make('tables.edit', $this->data);
-
-            }
-
-        }
+        return View::make('tables.edit', $this->data);
     }
 
-    public function update($slug, $id)
+    public function update($slug, $needle)
     {
+        $inputs = Input::except(['_token']);
 
-        $inputs = Input::except(['_token', 'rows', 'values']);
-
-        $arr2 = [];
+        $arr = [];
 
         foreach ($inputs as $column => $value) {
             if (Schema::hasColumn($this->table->table_name, $column)) {
-                $arr2[$column] = $value;
+                $arr[$column] = $value;
             }
         }
 
-        $columns = DB::table('crud_table_rows')->where("table_name",$this->table->table_name)->get();
+        $columns = DB::table('crud_table_rows')->where("table_name", $this->table->table_name)->get();
         $rules = [];
         $data = $inputs;
 
-        for($i=0;$i<sizeOf($columns);$i++){
+        for ($i = 0; $i < sizeOf($columns); $i++) {
 
-            if(!empty($columns[$i]->edit_rule)&&isset($data[$columns[$i]->column_name]))
+            if (!empty($columns[$i]->edit_rule) && isset($data[$columns[$i]->column_name]))
                 $rules[$columns[$i]->column_name] = $columns[$i]->edit_rule;
         }
 
-        $v = Validator::make($data,$rules);
+        $v = Validator::make($data, $rules);
 
-        if($v->fails()){
-            Session::flash('error_msg',Utils::buildMessages($v->errors()->all()));
-            return Redirect::to("/table/".$this->table->slug."/list");
+        if ($v->fails()) {
+            Session::flash('error_msg', Utils::buildMessages($v->errors()->all()));
+            return Redirect::to("/table/" . $this->table->slug . "/list");
         }
 
-        if ($id != 0) {
-            DB::table($this->table->table_name)->where('id', $id)->update($arr2);
+        DB::table($this->table->table_name)->where($this->table->needle, $needle)->update($arr);
 
-            Session::flash('success_msg', 'Entry updated successfully');
+        Session::flash('success_msg', 'Entry updated successfully');
 
-            return Redirect::to("/table/{$this->table->slug}/list");
-        } else {
-            //Match rows and delete
-            $editable_columns_names = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->where('editable', 1)->lists('column_name');
-            $columns = DB::table($this->table->table_name)->select($editable_columns_names)->get();
-
-            if (sizeOf($columns) > 0) {
-                $position = Input::get('position');
-                $keys = Input::get('rows');
-                $values = Input::get('values');
-
-                $arr = [];
-
-                for ($i = 0; $i < sizeOf($keys); $i++) {
-                    $arr[$keys[$i]] = $values[$i];
-                }
-
-                DB::table($this->table->table_name)->where($arr)->update($arr2);
-
-                Session::flash('success_msg', 'Entry updated successfully');
-
-                return Redirect::to("/table/{$this->table->slug}/list");
-
-            }
-        }
-
+        return Redirect::to("/table/{$this->table->slug}/list");
 
     }
 
@@ -216,20 +156,20 @@ class TablesController extends BaseController
 
         $inputs = Input::except('_token');
 
-        $columns = DB::table('crud_table_rows')->where("table_name",$this->table->table_name)->get();
+        $columns = DB::table('crud_table_rows')->where("table_name", $this->table->table_name)->get();
         $rules = [];
         $data = $inputs;
 
-        for($i=0;$i<sizeOf($columns);$i++){
+        for ($i = 0; $i < sizeOf($columns); $i++) {
 
-            if(!empty($columns[$i]->create_rule)&&isset($data[$columns[$i]->column_name]))
+            if (!empty($columns[$i]->create_rule) && isset($data[$columns[$i]->column_name]))
                 $rules[$columns[$i]->column_name] = $columns[$i]->create_rule;
         }
 
-        $v = Validator::make($data,$rules);
+        $v = Validator::make($data, $rules);
 
-        if($v->fails()){
-            Session::flash('error_msg',Utils::buildMessages($v->errors()->all()));
+        if ($v->fails()) {
+            Session::flash('error_msg', Utils::buildMessages($v->errors()->all()));
             return Redirect::back()->withErrors($v)->withInput();
         }
 
@@ -255,13 +195,7 @@ class TablesController extends BaseController
         $visible_columns_names = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->where('listable', 1)->lists('column_name');
         $columns = DB::table($this->table->table_name)->select($visible_columns_names)->get();
 
-        if (Schema::hasColumn($this->table->table_name, 'id')) {
-            $ids = DB::table($this->table->table_name)->select('id')->lists('id');
-        } else {
-            foreach ($columns as $column) {
-                $ids = 0;
-            }
-        }
+        $ids = DB::table($this->table->table_name)->lists($this->table->needle);
 
         if (sizeOf($columns) > 0) {
             $headers = array_keys((array)$columns[0]);
@@ -342,18 +276,8 @@ class TablesController extends BaseController
     {
 
         //delete old columns and populate new ones
-
         if (DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->count() > 0) {
-
-            $cols = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->get();
-
-            foreach ($cols as $col) {
-                if ($col->type == "radio" || $col->type == "range" || $col->type == "checkbox" || $col->type == "select") {
-                    DB::table("crud_table_pairs")->where("crud_table_id", $col->id)->delete();
-                }
-            }
-
-            DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->delete();
+            $this->removeTableMeta();
         }
 
         $columns = Input::get("columns");
@@ -435,45 +359,29 @@ class TablesController extends BaseController
         return Redirect::to("/table/{$this->table->slug}/list");
     }
 
-    public function delete($table_name, $id)
-    {
-        if ($id != 0) {
-            //Table have primary key so delete using that
-            if (DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->count() > 0) {
-                $cols = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->get();
+    public function removeTableMeta(){
+        $cols = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->get();
 
-                DB::table($this->table->table_name)->where('id', $id)->delete();
-
-                Session::flash('success_msg', 'Entry deleted successfully');
-
-                return Redirect::to("/table/{$this->table->slug}/list");
-
+        foreach ($cols as $col) {
+            if ($col->type == "radio" || $col->type == "range" || $col->type == "checkbox" || $col->type == "select") {
+                DB::table("crud_table_pairs")->where("crud_table_id", $col->id)->delete();
             }
-        } else {
-            //Match rows and delete
-            $visible_columns_names = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->lists('column_name');
-            $columns = DB::table($this->table->table_name)->select($visible_columns_names)->get();
-
-            if (sizeOf($columns) > 0) {
-                $position = Input::get('position');
-                $keys = Input::get('rows_' . $position);
-                $values = Input::get('values_' . $position);
-
-                $arr = [];
-
-                for ($i = 0; $i < sizeOf($keys); $i++) {
-                    $arr[$values[$i]] = $keys[$i];
-                }
-
-                DB::table($this->table->table_name)->where($arr)->delete();
-
-                Session::flash('success_msg', 'Entry deleted successfully');
-
-                return Redirect::to("/table/{$this->table->slug}/list");
-
-            }
-
         }
+
+        DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->delete();
+    }
+
+    public function delete($table_name, $needle)
+    {
+        $cols = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->get();
+
+        DB::table($this->table->table_name)->where($this->needle, $needle)->delete();
+
+        Session::flash('success_msg', 'Entry deleted successfully');
+
+        return Redirect::to("/table/{$this->table->slug}/list");
+
+
     }
 
 }

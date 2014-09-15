@@ -32,7 +32,7 @@
             @foreach($cruds as $crud)
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-bar-chart-o"></i>
+                    <i class="{{$crud->fontawesome_class}}"></i>
                     <span>{{$crud->crud_name}}</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>

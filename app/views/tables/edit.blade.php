@@ -36,15 +36,10 @@
 
                         <div class="row margin">
                             <strong><p>Edit Entry</p></strong>
-                            {{Form::open(['url'=>'/table/'.$table->table_name.'/update/'.$id,'files'=>'true'])}}
+                            {{Form::open(['url'=>'/table/'.$table->table_name.'/update/'.$needle,'files'=>'true'])}}
                             <div class="col-md-5">
 
                             @include('layouts.notifications')
-
-                            @foreach($cols as $key=>$value)
-                                <input type="hidden" name="rows[]" value="{{$key}}"/>
-                                <input type="hidden" name="values[]" value="{{$value}}"/>
-                            @endforeach
 
                             @foreach($columns as $column)
                                 @if($column->creatable)

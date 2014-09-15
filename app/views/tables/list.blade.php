@@ -43,25 +43,12 @@
                 <tbody>
                 @for($i=0;$i<sizeOf($rows);$i++)
                 <tr>
-                    {{Form::open(['url'=>'/table/'.$table->slug.'/delete/'.$ids[$i],'method'=>'post'])}}
                     <input type="hidden" name="position" value="{{$i}}"/>
                     @for($j=0;$j<sizeOf($rows[$i]);$j++)
                         <td>{{ $rows[$i][$headers[$j]] }}</td>
-                        <input type="hidden" name="rows_{{$i}}[]" value="{{$rows[$i][$headers[$j]]}}"/>
-                        <input type="hidden" name="values_{{$i}}[]" value="{{$headers[$j]}}"/>
                     @endfor
-                    <td><button type="submit" class="btn btn-warning btn-sm">Delete</button></td>
-                    {{Form::close()}}
-
-                    {{Form::open(['url'=>'/table/'.$table->slug.'/edit/'.$ids[$i],'method'=>'post'])}}
-                    <input type="hidden" name="position" value="{{$i}}"/>
-                    @for($j=0;$j<sizeOf($rows[$i]);$j++)
-                    <input type="hidden" name="rows_{{$i}}[]" value="{{$rows[$i][$headers[$j]]}}"/>
-                    <input type="hidden" name="values_{{$i}}[]" value="{{$headers[$j]}}"/>
-                    @endfor
-                    <td><button href="/table/{{$table->slug}}/edit/{{$ids[$i]}}" class="btn btn-success btn-sm">Edit</button></td>
-                    {{Form::close()}}
-
+                    <td><a href="/table/{{$table->slug}}/edit/{{$ids[$i]}}" class="btn btn-success btn-sm">Edit</a></td>
+                    <td><a href="/table/{{$table->slug}}/delete/{{$ids[$i]}}" class="btn btn-warning btn-sm">Delete</a></td>
                 </tr>
                 @endfor
                 </tbody>

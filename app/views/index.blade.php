@@ -36,6 +36,8 @@
                     <th>ID</th>
                     <th>CRUD Name</th>
                     <th>Table Name</th>
+                    <th>Font Awesome Class</th>
+                    <th>Unique/Primary Column</th>
                     <th>Creatable</th>
                     <th>Editable</th>
                     <th>Listable</th>
@@ -50,6 +52,8 @@
                     <td>{{$row->id}}</td>
                     <td>{{$row->crud_name}}</td>
                     <td>{{$row->table_name}}</td>
+                    <td>{{$row->fontawesome_class}}</td>
+                    <td>{{$row->needle}}</td>
                     <td>{{$row->creatable}}</td>
                     <td>{{$row->editable}}</td>
                     <td>{{$row->listable}}</td>

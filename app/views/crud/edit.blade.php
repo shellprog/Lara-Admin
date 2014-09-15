@@ -26,7 +26,7 @@
     <div class="tab-pane active" id="crud_create">
 
         <div class="row margin">
-            {{Form::open(['url'=>'/crud/create'])}}
+            {{Form::open(['url'=>'/crud/update/'.$crud->id])}}
             <div class="col-md-5">
 
                 @include('layouts.notifications')
@@ -39,6 +39,17 @@
                 <div class="form-group">
                     <label for="table_name">Enter Table Name</label>
                     <input type="text" class="form-control" name="table_name" id="table_name" value="{{$crud->table_name}}" placeholder="Enter Table Name">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="needle">Unqiue / Primary Column Name (Will be used for editing and deleting)</label>
+                    <input type="text" class="form-control" name="needle" id="needle" value="{{$crud->needle}}" placeholder="Ex : id">
+                </div>
+
+                <div class="form-group">
+                    <label for="fontawesome_class">Font Awesome Class</label>
+                    <input type="text" class="form-control" name="fontawesome_class" id="fontawesome_class" value="{{$crud->fontawesome_class}}" placeholder="Ex : fa fa-ellipsis-v">
                 </div>
 
                 <div class="form-group">
@@ -68,7 +79,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-success" name="submit">Create</button>
+                <button type="submit" class="btn btn-success" name="submit">Update</button>
 
             </div>
             {{Form::close()}}

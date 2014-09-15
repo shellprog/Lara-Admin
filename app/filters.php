@@ -39,11 +39,21 @@ Route::filter('table_settings', function($route, $request)
 
     $table = DB::table('crud_table')->where('slug', $segments[1])->first();
 
-    //dd($table);
-
     if(DB::table('crud_table_rows')->where('table_name', $table->table_name)->count()<=0){
         Session::flash('error_msg', 'Update your table settings before doing any operations');
         return Redirect::to('/table/'.$table->table_name.'/settings');
+    }
+});
+
+Route::filter('table_needle', function($route, $request)
+{
+    $segments = $request->segments();
+
+    $table = DB::table('crud_table')->where('slug', $segments[1])->first();
+
+    if(!Schema::hasColumn($table->table_name,$table->needle)){
+        Session::flash('error_msg', 'Your table does not contain column '.$table->needle.' which was configure when you created crud . please update your crud');
+        return Redirect::to('/crud/all');
     }
 });
 
