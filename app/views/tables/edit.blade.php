@@ -3,8 +3,7 @@
 @section('styles')
 
 <link href="/css/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet"/>
-<!-- Bootstrap time Picker -->
-<link href="/css/timepicker/bootstrap-timepicker.min.css" rel="stylesheet"/>
+<link href="/css/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
 <link href="/css/datepicker/datepicker3.css" rel="stylesheet"/>
 @stop
 
@@ -17,7 +16,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Settings</li>
+        <li class="active">Edit</li>
     </ol>
 </section>
 
@@ -37,7 +36,7 @@
                         <div class="row margin">
                             <strong><p>Edit Entry</p></strong>
                             {{Form::open(['url'=>'/table/'.$table->table_name.'/update/'.$needle,'files'=>'true'])}}
-                            <div class="col-md-5">
+                            <div class="col-md-12">
 
                             @include('layouts.notifications')
 
@@ -71,17 +70,10 @@
                                 </div>
                                 @endif
 
-                                @if($column->type=="content_editor_escape")
-                                <div class="form-group">
-                                    <label for="{{$column->column_name}}">{{$column->column_name}}</label>
-                                    <textarea name="{{$column->column_name}}" rows="10" cols="80" class="form-control" id="{{$column->column_name}}">{{$cols[$column->column_name]}}</textarea>
-                                </div>
-                                @endif
-
                                 @if($column->type=="content_editor")
                                 <div class="form-group">
                                     <label for="{{$column->column_name}}">{{$column->column_name}}</label>
-                                    <textarea name="{{$column->column_name}}" rows="10" cols="80" class="form-control" id="{{$column->column_name}}">{{$cols[$column->column_name]}}</textarea>
+                                    <textarea name="{{$column->column_name}}" rows="10" cols="80" class="form-control ckeditor" id="{{$column->column_name}}">{{$cols[$column->column_name]}}</textarea>
                                 </div>
                                 @endif
 
@@ -141,26 +133,20 @@
                                 @if($column->type=="datetime")
                                 <div class="form-group">
                                     <label for="{{$column->column_name}}">{{$column->column_name}}</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
-                                        <input type="text" value="{{$cols[$column->column_name]}}" name="{{$column->column_name}}" id="{{$column->column_name}}" class="form-control pull-right" />
-                                    </div><!-- /.input group -->
+                                    <div class='input-group' id='datetimepickers'>
+                                        <input id="{{$column->column_name}}" value="{{$cols[$column->column_name]}}" name="{{$column->column_name}}" type='text' class="form-control" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar">
+                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
                                 @endif
 
                                 @if($column->type=="time")
                                 <div class="bootstrap-timepicker">
-                                    <div class="form-group">
-                                      <label for="{{$column->column_name}}">{{$column->column_name}}</label>
-                                      <div class="input-group">
-                                        <input type="text" value="{{$cols[$column->column_name]}}" name="{{$column->column_name}}" id="{{$column->column_name}}" class="form-control timepickers"/>
-                                        <div class="input-group-addon">
-                                          <i class="fa fa-clock-o"></i>
-                                        </div>
-                                      </div><!-- /.input group -->
-                                    </div><!-- /.form group -->
+                                    <label for="{{$column->column_name}}">{{$column->column_name}}</label>
+                                    <input type="text" name="{{$column->column_name}}" value="{{$cols[$column->column_name]}}" id="{{$column->column_name}}" class="form-control timepickers"
                                 </div>
                                 @endif
 
@@ -231,21 +217,23 @@
 <script src="/js/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
 <script src="/js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
 <script src="/js/plugins/colorpicker/bootstrap-colorpicker.min.js" type="text/javascript"></script>
-<!-- bootstrap time picker -->
-<script src="/js/plugins/timepicker/bootstrap-timepicker.min.js" type="text/javascript"></script>
+<script src="/js/moment.min.js" type="text/javascript"></script>
+<script src="/js/plugins/datetimepicker/bootstrap-datetimepicker.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(function() {
 
-        @foreach($editors as $editor)
-            CKEDITOR.replace({{$editor}});
+        $(".datepickers").datepicker();
+
+        @foreach($datetimepickers as $picker)
+        $("#{{$picker}}").datetimepicker();
         @endforeach
 
-        $(".timepickers").timepicker({
-           showInputs: false
+        @foreach($timepickers as $picker)
+        $("#{{$picker}}").datetimepicker({
+            pickDate: false
         });
-
-        $(".datepickers").datepicker();
+        @endforeach
 
         $(".colorpickers").colorpicker();
 

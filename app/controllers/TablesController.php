@@ -34,19 +34,19 @@ class TablesController extends BaseController
     public function create()
     {
 
-        $editors = [];
         $datetimepickers = [];
+        $timepickers = [];
 
         $columns = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->get();
 
         foreach ($columns as $column) {
 
-            if ($column->type == "content_editor_escape" || $column->type == "content_editor") {
-                $editors[] = $column->column_name;
-            }
-
             if ($column->type == "datetime") {
                 $datetimepickers[] = $column->column_name;
+            }
+
+            if ($column->type == "time") {
+                $timepickers[] = $column->column_name;
             }
 
             if ($column->type == "radio") {
@@ -72,8 +72,8 @@ class TablesController extends BaseController
         }
 
         $this->data['columns'] = $columns;
-        $this->data['editors'] = $editors;
         $this->data['datetimepickers'] = $datetimepickers;
+        $this->data['timepickers'] = $timepickers;
         $this->data['table'] = $this->table;
 
         return View::make('tables.create', $this->data);
@@ -81,19 +81,19 @@ class TablesController extends BaseController
 
     public function edit($slug, $needle)
     {
-        $editors = [];
         $datetimepickers = [];
+        $timepickers = [];
 
         $columns = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->get();
 
         foreach ($columns as $column) {
 
-            if ($column->type == "content_editor_escape" || $column->type == "content_editor") {
-                $editors[] = $column->column_name;
-            }
-
             if ($column->type == "datetime") {
                 $datetimepickers[] = $column->column_name;
+            }
+
+            if ($column->type == "time") {
+                $timepickers[] = $column->column_name;
             }
 
             if ($column->type == "radio") {
@@ -122,8 +122,8 @@ class TablesController extends BaseController
 
         $this->data['cols'] = (array)$cols;
         $this->data['columns'] = $columns;
-        $this->data['editors'] = $editors;
         $this->data['datetimepickers'] = $datetimepickers;
+        $this->data['timepickers'] = $timepickers;
         $this->data['table'] = $this->table;
         $this->data['needle'] = $needle;
 

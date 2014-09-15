@@ -36,7 +36,9 @@
                     @foreach($headers as $header)
                         <th>{{$header}}</th>
                     @endforeach
+                    @if($table->editable)
                         <th>Edit</th>
+                    @endif
                         <th>Delete</th>
                 </tr>
                 </thead>
@@ -47,7 +49,9 @@
                     @for($j=0;$j<sizeOf($rows[$i]);$j++)
                         <td>{{ $rows[$i][$headers[$j]] }}</td>
                     @endfor
+                    @if($table->editable)
                     <td><a href="/table/{{$table->slug}}/edit/{{$ids[$i]}}" class="btn btn-success btn-sm">Edit</a></td>
+                    @endif
                     <td><a href="/table/{{$table->slug}}/delete/{{$ids[$i]}}" class="btn btn-warning btn-sm">Delete</a></td>
                 </tr>
                 @endfor

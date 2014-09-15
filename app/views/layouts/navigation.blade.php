@@ -41,7 +41,7 @@
                     @if($crud->creatable==1)
                         <li><a href="/table/{{$crud->slug}}/create"><i class="fa fa-angle-double-right"></i> Create</a></li>
                     @endif
-                    @if($crud->creatable==1)
+                    @if($crud->listable==1)
                         <li><a href="/table/{{$crud->slug}}/list"><i class="fa fa-angle-double-right"></i> List</a></li>
                     @endif
                     <li><a href="/table/{{$crud->slug}}/settings"><i class="fa fa-angle-double-right"></i> Settings</a></li>

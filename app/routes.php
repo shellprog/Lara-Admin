@@ -16,11 +16,3 @@ Route::get('/table/{table_name}/list','TablesController@all');
 Route::get('/table/{table_name}/delete/{id}','TablesController@delete');
 Route::get('/table/{table_name}/edit/{id}','TablesController@edit');
 Route::post('/table/{table_name}/update/{id}','TablesController@update');
-
-Route::get('/users/create','UsersController@showCreate');
-Route::post('/users/create','UsersController@postCreate');
-
-Route::get('/settings/users_table','SettingsController@showUserTable');
-Route::post('/settings/users_table','SettingsController@postUserTable');
-
-Route::get('/settings/find_table/{name}','SettingsController@findTable');
