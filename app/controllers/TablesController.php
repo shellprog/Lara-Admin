@@ -11,8 +11,24 @@ class TablesController extends BaseController
 
         $segments = Request::segments();
         $this->table = DB::table('crud_table')->where('slug', $segments[1])->first();
+        $this->settings = DB::table('crud_settings')->first();
 
         parent::__construct();
+    }
+
+    public function uploadFeaturedImage($file)
+    {
+
+        $timestamp = time();
+        $ext = $file->guessClientExtension();
+        $name = $timestamp . "_file." . $ext;
+
+        // move uploaded file from temp to uploads directory
+        if ($file->move(public_path() . $this->settings->upload_path , $name)) {
+            return $name;
+        } else {
+            return false;
+        }
     }
 
     public function create()
@@ -177,7 +193,12 @@ class TablesController extends BaseController
 
         foreach ($inputs as $column => $value) {
             if (Schema::hasColumn($this->table->table_name, $column)) {
-                $arr[$column] = $value;
+
+                if(is_file($value)){
+                    $arr[$column] = $this->uploadFeaturedImage($value);
+                }else{
+                    $arr[$column] = $value;
+                }
             }
         }
 
