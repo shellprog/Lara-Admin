@@ -24,7 +24,7 @@
             <h3 class="box-title"></h3>
         </div>
 
-        <a href="/table/{{$table->slug}}/create" class="btn btn-success btn-lg margin">Create New Entry</a>
+        <a href="/table/{{$table->table_name}}/create" class="btn btn-success btn-lg margin">Create New Entry</a>
         <!-- /.box-header -->
         <div class="box-body table-responsive">
 
@@ -50,9 +50,9 @@
                         <td>{{ $rows[$i][$headers[$j]] }}</td>
                     @endfor
                     @if($table->editable)
-                    <td><a href="/table/{{$table->slug}}/edit/{{$ids[$i]}}" class="btn btn-success btn-sm">Edit</a></td>
+                    <td><a href="/table/{{$table->table_name}}/edit/{{$ids[$i]}}" class="btn btn-success btn-sm">Edit</a></td>
                     @endif
-                    <td><a href="/table/{{$table->slug}}/delete/{{$ids[$i]}}" class="btn btn-warning btn-sm">Delete</a></td>
+                    <td><a href="/table/{{$table->table_name}}/delete/{{$ids[$i]}}" class="btn btn-warning btn-sm">Delete</a></td>
                 </tr>
                 @endfor
                 </tbody>

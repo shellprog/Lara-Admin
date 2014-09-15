@@ -60,7 +60,6 @@ class CRUDController extends BaseController
         return Redirect::to("/crud/all");
     }
 
-
     public function store()
     {
         $v = Validator::make(['crud_name' => Input::get('crud_name'),
