@@ -1,25 +1,23 @@
-## Laravel PHP Framework
+## Laravel Admin Panel ***** Work In Progress *****
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Is there a need for something like this ? Yes it is .
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+Why ?
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+## CRUD Management 
+CRUD is repetitive task . Laravel Admin Panel makes CRUD a breeze with just 2 clicks .
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## CRUD Management with Relationships - WIP
+Simple CRUD is good for tables which are not linked to others or which are not related to other tables 
+If i want to create a user table which has relationship with user_groups then this can be useful
 
-## Official Documentation
+## User Management 
+It will wrap all popular authentication systems like sentry , confide , buildin auth into adapter through which user management can be configured like user creations , user groups , groups , throttle etc .
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+## Cron Jobs
+This really needs an interface 
 
-### Contributing To Laravel
+Stay tuned !
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
 
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+The Laravel Admin Panel is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
