@@ -25,7 +25,7 @@ class TablesController extends BaseController
 
         // move uploaded file from temp to uploads directory
         if ($file->move(public_path() . $this->settings->upload_path , $name)) {
-            return $name;
+            return $this->settings->upload_path . $name;
         } else {
             return false;
         }

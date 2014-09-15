@@ -24,7 +24,7 @@
             <h3 class="box-title"></h3>
         </div>
 
-        <a href="/crud/create" class="btn btn-success btn-lg">Create New CRUD</a>
+        <a href="/crud/create" class="btn btn-success btn-lg margin">Create New CRUD</a>
         <!-- /.box-header -->
         <div class="box-body table-responsive">
 
