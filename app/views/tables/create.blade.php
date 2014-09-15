@@ -42,7 +42,7 @@
                             @include('layouts.notifications')
 
                             @foreach($columns as $column)
-                                @if($column->creatable)
+                                @if($column->creatable==1)
                                 @if($column->type=="text")
                                 <div class="form-group">
                                     <label for="{{$column->column_name}}">{{$column->column_name}}</label>

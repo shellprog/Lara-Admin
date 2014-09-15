@@ -13,7 +13,7 @@ Route::post('/table/{table_name}/settings','TablesController@postSettings');
 Route::get('/table/{table_name}/create','TablesController@create');
 Route::post('/table/{table_name}/create','TablesController@store');
 Route::get('/table/{table_name}/list','TablesController@all');
-Route::post('/table/{table_name}/delete/{id}','TablesController@delete');
+Route::get('/table/{table_name}/delete/{id}','TablesController@delete');
 Route::get('/table/{table_name}/edit/{id}','TablesController@edit');
 Route::post('/table/{table_name}/update/{id}','TablesController@update');
 

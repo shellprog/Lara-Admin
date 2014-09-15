@@ -290,9 +290,9 @@ class TablesController extends BaseController
                     'type' => Input::get($column . "_type"),
                     'create_rule' => Input::get($column . "_create_validator"),
                     'edit_rule' => Input::get($column . "_edit_validator"),
-                    'creatable' => Input::has($column . "_creatable"),
-                    'editable' => Input::has($column . "_editable"),
-                    'listable' => Input::has($column . "_listable"),
+                    'creatable' => Input::get($column . "_creatable"),
+                    'editable' => Input::get($column . "_editable"),
+                    'listable' => Input::get($column . "_listable"),
                     'created_at' => Utils::timestamp(),
                     'updated_at' => Utils::timestamp()
                 ]);
@@ -375,7 +375,7 @@ class TablesController extends BaseController
     {
         $cols = DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->get();
 
-        DB::table($this->table->table_name)->where($this->needle, $needle)->delete();
+        DB::table($this->table->table_name)->where($this->table->needle, $needle)->delete();
 
         Session::flash('success_msg', 'Entry deleted successfully');
 
