@@ -107,7 +107,6 @@ class TablesController extends BaseController
         $this->data['table'] = $this->table;
         $this->data['id'] = $id;
 
-
         if ($id != 0) {
             //Table have primary key so fetch using that
             if (DB::table('crud_table_rows')->where('table_name', $this->table->table_name)->count() > 0) {
@@ -117,7 +116,7 @@ class TablesController extends BaseController
 
                 $this->data['cols'] = (array)$cols;
 
-                return View::make('tables.edit');
+                return View::make('tables.edit',$this->data);
 
             }
         } else {
@@ -257,13 +256,12 @@ class TablesController extends BaseController
         $columns = DB::table($this->table->table_name)->select($visible_columns_names)->get();
 
         if (Schema::hasColumn($this->table->table_name, 'id')) {
-            $ids = DB::table($this->table->table_name)->select('id')->get();
+            $ids = DB::table($this->table->table_name)->select('id')->lists('id');
         } else {
             foreach ($columns as $column) {
-                $ids[] = 0;
+                $ids = 0;
             }
         }
-
 
         if (sizeOf($columns) > 0) {
             $headers = array_keys((array)$columns[0]);
